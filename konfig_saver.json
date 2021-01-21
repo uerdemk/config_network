@@ -1,0 +1,54 @@
+{
+	"device_to_config":
+		[
+			{
+				"device": "YVTY",
+				"ip": "10.52.100.70",
+				"os": "cisco_ios",
+				"command":
+					[
+						"sh running-config",
+						"sh ip int brief"
+					],
+				"save": "do wr",
+				"result":
+					[
+						"sh run | section ip pim"
+					]
+			},
+			{
+				"device": "ELAZIG YSHA ROUTER 1",
+				"ip":"10.112.1.52",
+				"os": "cisco_ios",
+				"command":
+					[
+						"interface loopback 0",
+						"ip address 11.11.11.11 255.255.255.255",
+						"interface tunnel 20",
+            			"ip address 20.20.20.2 255.255.255.0",
+						"tunnel source 98.8.14.51",
+						"tunnel destination 128.153.12.51",
+            			"ip pim sparse-mode",
+						"router ospf 1",
+						"network 11.11.11.11 0.0.0.0 area 0",
+            			"ip msdp peer 1.1.1.1 connect-source Loopback 0",
+						"ip msdp originator-id Loopback 0",
+						"router ospf 1",
+            			"no network 1.1.1.1 0.0.0.0 area 0",
+						"network 11.11.11.11 0.0.0.0 area 0",
+						"redistribute static",
+            			"ip route 10.0.0.0 255.192.0.0 20.20.20.1",
+						"ip route 1.1.1.1 255.255.255.255 20.20.20.1"
+					],
+				"save": "do wr",
+				"result":
+					[
+						"sh run | section interface Loopback0",
+						"sh run | section interface Tunnel20",
+						"sh run | section ip pim",
+						"sh run | section router ospf",
+						"sh run | section ip route"
+					]
+			}
+		]
+}
